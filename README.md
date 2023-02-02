@@ -29,6 +29,8 @@
 <h2 align="center">Dil & Framework</h2>
 
 ![My Skills](https://skillicons.dev/icons?i=py)
+![My Skills](https://skillicons.dev/icons?i=html)
+![My Skills](https://skillicons.dev/icons?i=flutter)
 
 <h2 align="center">Kullandığım IDE Çeşitleri</h2>
 
