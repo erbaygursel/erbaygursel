@@ -14,14 +14,6 @@
   <img src="https://img.shields.io/github/stars/onreonur?label=Stars" alt="𝚃𝚘𝚝𝚊𝚕 𝚂𝚝𝚊𝚛𝚜">
 </p>
 
-
-
-[![GitHub WidgetBox](https://github-widgetbox.vercel.app/api/profile?username=erbaygursel&data=followers,repositories,stars,commits&theme=nautilus)](https://github.com/Jurredr/github-widgetbox)
-
- [![ github activity graph](https://github-readme-activity-graph.cyclic.app/graph?username=erbaygursel&theme=dracula)](https://github.com/ashutosh00710/github-readme-activity-graph)
-</div>
-
-
 <h2 align="center">Sosyal Medya Hesaplarım </h2>
 
 [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/erbay-gursel/)
