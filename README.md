@@ -3,6 +3,8 @@
 Matematikçiyim. Matematiği ve algoritmaları **görsel olarak anlatmayı** seviyorum:
 kısa animasyonlar, etkileşimli sayfalar ve tek sayfalık özet kâğıtları hazırlıyorum.
 
+**▶ Animasyonlarım: [erbaygursel.github.io/vitrin](https://erbaygursel.github.io/vitrin/)**
+
 - 🎓 Trakya Üniversitesi — Matematik lisans ve yüksek lisans
 - 💻 Anadolu Üniversitesi — Web Tasarımı ve Kodlama
 - 🌱 Google Oyun ve Uygulama Akademisi · Yetkin Gençler Core Python Jumper
