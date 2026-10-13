@@ -9,25 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     env:
       UA: 'Mozilla/5.0 (Linux; Android 14; Pixel 8)'
-      MAC_ID: cmgalzgjhe6ijnsh6but6ccus
-      SLUG: galatasaray-vs-kas%C4%B1mpa%C5%9Fa
+      TAKIM1: eyüp
+      TAKIM2: göztepe
     steps:
       - uses: actions/checkout@v4
-      - name: Sayfayi indir
+      - name: Fiksturleri indir
         run: |
-          curl -sSL --retry 5 --retry-all-errors -A "$UA" -o sayfa.html -w 'HTTP %{http_code} | %{size_download} bayt\n' \
-            "https://www.mackolik.com/mac/$SLUG/iddaa/$MAC_ID"
-      - name: Mac ana sayfasi
+          for S in "" "2025-2026/" "2026-2027/"; do
+            curl -sSL --retry 5 --retry-all-errors -A "$UA" -o "fikstur_${S%/}.html" -w "fikstur[$S] HTTP %{http_code} | %{size_download} bayt\n" \
+              "https://www.mackolik.com/puan-durumu/t%C3%BCrkiye-trendyol-s%C3%BCper-lig/${S}fikstur/482ofyysbdbeoxauk19yg7tdt" || true
+          done
+          curl -sSL --retry 5 --retry-all-errors -A "$UA" -o iddaa_liste.html -w "iddaa listesi HTTP %{http_code}\n" https://www.mackolik.com/iddaa || true
+      - name: Maci bul
         run: |
-          curl -sSL --retry 5 --retry-all-errors -A "$UA" -o mac.html -w 'HTTP %{http_code} | %{size_download} bayt\n' \
-            "https://www.mackolik.com/mac/$SLUG/$MAC_ID"
-      - name: Ifade aramasi
-        run: python3 mackolik/ara.py sayfa.html mac.html
-      - name: Ajax marketleri
+          python3 mackolik/mac_bul.py "$TAKIM1" "$TAKIM2" fikstur_*.html iddaa_liste.html | tee maclar.txt
+          test -s maclar.txt
+      - name: Iddaa sayfalarini cek ve ayristir
         run: |
-          KOD=$(grep -o 'code=[0-9]*' sayfa.html | head -1 | cut -d= -f2); echo "iddaaCode=$KOD"
-          curl -sSL --retry 5 --retry-all-errors -A "$UA" -H 'X-Requested-With: XMLHttpRequest' -o ajax.json \
-            -w 'HTTP %{http_code} | %{size_download} bayt\n' \
-            "https://www.mackolik.com/ajax/iddaa/markets/soccer/all/$MAC_ID?template=all&iddaaCode=$KOD"
-          python3 -c "import json;d=json.load(open('ajax.json'));open('ajax.html','w').write(d.get('data',{}).get('html',''))" || head -c 500 ajax.json
-          python3 mackolik/ara.py ajax.html
+          while read SLUG MID; do
+            echo "=================== $SLUG $MID"
+            curl -sSL --retry 5 --retry-all-errors -A "$UA" -o "m_$MID.html" -w 'HTTP %{http_code} | %{size_download} bayt | %{url_effective}\n' \
+              "https://www.mackolik.com/mac/$SLUG/iddaa/$MID"
+            python3 mackolik/yeni_site_iddaa_ayristir.py "m_$MID.html" || true
+            python3 mackolik/ara.py "m_$MID.html" | grep -E '^===|: [1-9]|Karşılıklı geçen|^      ' || true
+          done < maclar.txt
