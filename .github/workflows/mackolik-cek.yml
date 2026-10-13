@@ -17,8 +17,12 @@ jobs:
         run: |
           curl -sSL --retry 5 --retry-all-errors -A "$UA" -o sayfa.html -w 'HTTP %{http_code} | %{size_download} bayt\n' \
             "https://www.mackolik.com/mac/$SLUG/iddaa/$MAC_ID"
-      - name: Sayfa taramasi
-        run: python3 mackolik/tara.py sayfa.html
+      - name: Mac ana sayfasi
+        run: |
+          curl -sSL --retry 5 --retry-all-errors -A "$UA" -o mac.html -w 'HTTP %{http_code} | %{size_download} bayt\n' \
+            "https://www.mackolik.com/mac/$SLUG/$MAC_ID"
+      - name: Ifade aramasi
+        run: python3 mackolik/ara.py sayfa.html mac.html
       - name: Ajax marketleri
         run: |
           KOD=$(grep -o 'code=[0-9]*' sayfa.html | head -1 | cut -d= -f2); echo "iddaaCode=$KOD"
@@ -26,4 +30,4 @@ jobs:
             -w 'HTTP %{http_code} | %{size_download} bayt\n' \
             "https://www.mackolik.com/ajax/iddaa/markets/soccer/all/$MAC_ID?template=all&iddaaCode=$KOD"
           python3 -c "import json;d=json.load(open('ajax.json'));open('ajax.html','w').write(d.get('data',{}).get('html',''))" || head -c 500 ajax.json
-          python3 mackolik/tara.py ajax.html
+          python3 mackolik/ara.py ajax.html
